@@ -2,11 +2,13 @@ param(
     [string]$ShortcutName = "Spotify Hotkeys.lnk"
 )
 
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $ErrorActionPreference = "Stop"
 
 $scriptPath = Join-Path $PSScriptRoot "spotify_hotkeys.ahk"
 if (-not (Test-Path $scriptPath)) {
-    throw "Не найден скрипт: $scriptPath"
+    Write-Host "Error: script not found: $scriptPath"
+    exit 1
 }
 
 $startupDir = [Environment]::GetFolderPath("Startup")
@@ -36,4 +38,4 @@ $shortcut.IconLocation = "$env:SystemRoot\System32\SndVol.exe,0"
 $shortcut.Description = "Spotify dedicated global hotkeys"
 $shortcut.Save()
 
-Write-Host "Автозапуск включен: $shortcutPath"
+Write-Host "Autostart enabled: $shortcutPath" -ForegroundColor Green
